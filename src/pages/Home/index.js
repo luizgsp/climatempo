@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import { SafeAreaView, StyleSheet, FlatList } from 'react-native'
+import { SafeAreaView, StyleSheet, FlatList, View, Text } from 'react-native'
 import * as Location from 'expo-location'
 
 import Menu from '../../components/Menu'
@@ -8,88 +8,6 @@ import Conditions from '../../components/Conditions'
 import Forecast from '../../components/Forecast'
 import api, {key} from '../../services/api'
 
-const myList = [
-    {
-    date: "29/03",
-    weekday: "Seg",
-    max: 28,
-    min: 19,
-    description: "Tempestades",
-    condition: "clear_day"
-    },
-    {
-    date: "30/03",
-    weekday: "Ter",
-    max: 26,
-    min: 18,
-    description: "Tempestades",
-    condition: "storm"
-    },
-    {
-    date: "31/03",
-    weekday: "Qua",
-    max: 22,
-    min: 16,
-    description: "Tempestades isoladas",
-    condition: "storm"
-    },
-    {
-    date: "01/04",
-    weekday: "Qui",
-    max: 23,
-    min: 13,
-    description: "Parcialmente nublado",
-    condition: "cloudly_day"
-    },
-    {
-    date: "02/04",
-    weekday: "Sex",
-    max: 21,
-    min: 16,
-    description: "Parcialmente nublado",
-    condition: "cloudly_day"
-    },
-    {
-    date: "03/04",
-    weekday: "Sáb",
-    max: 23,
-    min: 15,
-    description: "Parcialmente nublado",
-    condition: "cloudly_day"
-    },
-    {
-    date: "04/04",
-    weekday: "Dom",
-    max: 22,
-    min: 16,
-    description: "Tempo nublado",
-    condition: "cloud"
-    },
-    {
-    date: "05/04",
-    weekday: "Seg",
-    max: 22,
-    min: 16,
-    description: "Tempo nublado",
-    condition: "cloud"
-    },
-    {
-    date: "06/04",
-    weekday: "Ter",
-    max: 21,
-    min: 16,
-    description: "Tempo nublado",
-    condition: "cloud"
-    },
-    {
-    date: "07/04",
-    weekday: "Qua",
-    max: 24,
-    min: 15,
-    description: "Tempestades isoladas",
-    condition: "storm"
-    }
-    ]
 export default function Home(){
     const [errorMsg, setErrorMsg] = useState(null)
     const [loading, setLoading] = useState(true)
@@ -114,7 +32,7 @@ export default function Home(){
             
             setWeather(response.data)
             //console.log("========================================================")
-            //console.log(weather)
+            console.log(response.data)
             //console.log("========================================================")
 
             if (response.data.results.currenty === 'noite'){
@@ -137,6 +55,14 @@ export default function Home(){
         })()
     },[])
 
+    if(loading){
+        return(
+            <View style={styles.container}>
+                <Text style={{fontSize:17, fontStyle: 'italic'}}>Carregando dados...</Text>
+            </View>
+        )
+    }
+
     return(
         <SafeAreaView style={styles.container}>
             <Menu />
@@ -149,7 +75,7 @@ export default function Home(){
                 horizontal={true}
                 style={styles.list} 
                 contentContainerStyle={{ paddingBottom: '5%'}}
-                data={myList}
+                data={weather.results.forecast}
                 keyExtractor={ item => item.date}
                 renderItem={ ({item}) => <Forecast data={item} />}
             />
