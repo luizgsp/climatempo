@@ -26,14 +26,10 @@ export default function Home(){
                 return
             }
             let location = await Location.getCurrentPositionAsync({})
-            //console.log(location.coords)
 
             const response  = await api.get(`/weather?key=${key}&lat=${location.coords.latitude}&lon=${location.coords.longitude}`)
             
             setWeather(response.data)
-            //console.log("========================================================")
-            console.log(response.data)
-            //console.log("========================================================")
 
             if (response.data.results.currenty === 'noite'){
                 setBackground(['#0c3741','#0f2f61'])

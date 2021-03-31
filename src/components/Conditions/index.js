@@ -3,7 +3,7 @@ import { View, Text, StyleSheet } from 'react-native'
 
 import { Feather, MaterialCommunityIcons } from '@expo/vector-icons'
 
-export default function Condition({ weather }){
+export default function Conditions({ weather }){
     return(
         <View style={styles.container}>
             <View style={styles.condition}>
